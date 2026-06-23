@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TikTok Director Test | andthen</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --white:   #ffffff;
+  --bg:      #f5f5f5;
+  --text:    #111111;
+  --sub:     #666666;
+  --border:  #e2e2e2;
+  --card:    #ffffff;
+  --accent:  #111111;
+
+  /* レベル帯カラー */
+  --c1: #3b82f6;   /* L1-2  入門 */
+  --c2: #10b981;   /* L3-4  基礎 */
+  --c3: #f59e0b;   /* L5-6  実務 */
+  --c4: #ef4444;   /* L7-8  応用 */
+  --c5: #8b5cf6;   /* L9-10 上級 */
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Noto Sans JP', 'Inter', sans-serif;
+  font-size: 15px;
+  line-height: 1.7;
+  min-height: 100vh;
+}
+
+/* ── HEADER ── */
+.header {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.header-logo {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: var(--sub);
+}
+.header-logo span { color: var(--text); }
+.header-note {
+  font-size: 12px;
+  color: var(--sub);
+}
+
+/* ── HERO ── */
+.hero {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  padding: 64px 32px 56px;
+  text-align: center;
+}
+.hero-eyebrow {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--sub);
+  margin-bottom: 20px;
+}
+.hero-title {
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+  margin-bottom: 16px;
+}
+.hero-desc {
+  font-size: 15px;
+  color: var(--sub);
+  max-width: 520px;
+  margin: 0 auto 36px;
+}
+.hero-stats {
+  display: inline-flex;
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--bg);
+}
+.hero-stat {
+  padding: 14px 28px;
+  border-right: 1px solid var(--border);
+  text-align: center;
+}
+.hero-stat:last-child { border-right: none; }
+.hero-stat .v {
+  font-family: 'Inter', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  display: block;
+  line-height: 1;
+  margin-bottom: 3px;
+}
+.hero-stat .l { font-size: 11px; color: var(--sub); }
+
+/* ── HOW TO ── */
+.howto {
+  max-width: 680px;
+  margin: 48px auto 0;
+  padding: 0 24px;
+}
+.section-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--sub);
+  margin-bottom: 20px;
+}
+.steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 48px;
+}
+.step {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 18px 16px;
+}
+.step-num {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--sub);
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+.step-text { font-size: 13px; line-height: 1.6; }
+
+/* ── LEVELS ── */
+.levels-wrap {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 0 24px 80px;
+}
+
+.tier {
+  margin-bottom: 12px;
+}
+.tier-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+  padding: 0 4px;
+}
+.tier-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.tier-name {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--sub);
+}
+
+.level-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.level-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  text-decoration: none;
+  color: inherit;
+}
+.level-card:hover {
+  border-color: #bbb;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+
+.level-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+.level-badge {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 3px 10px;
+  border-radius: 99px;
+}
+.level-num {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  color: var(--sub);
+  font-weight: 500;
+}
+.level-title {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+.level-theme {
+  font-size: 12px;
+  color: var(--sub);
+  line-height: 1.5;
+}
+.level-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+.level-info {
+  font-size: 11px;
+  color: var(--sub);
+}
+.level-btn {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--white);
+  background: var(--accent);
+  border: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: opacity 0.15s;
+}
+.level-btn:hover { opacity: 0.8; }
+.level-btn.disabled {
+  background: var(--border);
+  color: var(--sub);
+  cursor: default;
+  pointer-events: none;
+}
+
+/* ── NOTICE ── */
+.notice {
+  max-width: 680px;
+  margin: 0 auto 16px;
+  padding: 0 24px;
+}
+.notice-box {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 20px;
+  font-size: 13px;
+  color: var(--sub);
+  line-height: 1.7;
+}
+.notice-box strong { color: var(--text); }
+
+/* color helpers */
+.c1 { background: #eff6ff; color: #1d4ed8; }
+.c2 { background: #f0fdf4; color: #166534; }
+.c3 { background: #fffbeb; color: #92400e; }
+.c4 { background: #fef2f2; color: #991b1b; }
+.c5 { background: #f5f3ff; color: #5b21b6; }
+
+@media (max-width: 520px) {
+  .hero { padding: 48px 20px 40px; }
+  .hero-stats { flex-direction: column; }
+  .hero-stat { border-right: none; border-bottom: 1px solid var(--border); }
+  .hero-stat:last-child { border-bottom: none; }
+  .steps { grid-template-columns: 1fr; }
+  .level-grid { grid-template-columns: 1fr; }
+  .header { padding: 14px 20px; }
+  .howto, .levels-wrap, .notice { padding: 0 16px 60px; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-logo"><span>andthen</span> — TikTok Director Test</div>
+  <div class="header-note">採用担当者専用ポータル</div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <p class="hero-eyebrow">Hiring Assessment Portal</p>
+  <h1 class="hero-title">TikTokディレクター<br>採用適性テスト</h1>
+  <p class="hero-desc">レベル1〜10の10段階。応募者が自分のレベルを選んで受験できます。各レベルは10問・100点満点・所要時間約10分です。</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><span class="v">10</span><span class="l">レベル</span></div>
+    <div class="hero-stat"><span class="v">100</span><span class="l">問（合計）</span></div>
+    <div class="hero-stat"><span class="v">10分</span><span class="l">目安/レベル</span></div>
+    <div class="hero-stat"><span class="v">100点</span><span class="l">満点/レベル</span></div>
+  </div>
+</section>
+
+<!-- HOW TO -->
+<div class="howto">
+  <p class="section-label" style="margin-top:40px">受験の流れ</p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">STEP 01</div>
+      <div class="step-text">受けたいレベルのボタンをクリック</div>
+    </div>
+    <div class="step">
+      <div class="step-num">STEP 02</div>
+      <div class="step-text">氏名を入力してテストを開始</div>
+    </div>
+    <div class="step">
+      <div class="step-num">STEP 03</div>
+      <div class="step-text">全10問に回答して送信。結果はすぐに確認できます</div>
+    </div>
+  </div>
+</div>
+
+<!-- NOTICE -->
+<div class="notice">
+  <div class="notice-box">
+    <strong>受験レベルの目安：</strong>TikTok運用が初めての方はレベル1から、実務経験がある方はレベル4〜6を目安に選んでください。80点以上で次のレベルに挑戦することを推奨します。
+  </div>
+</div>
+
+<!-- LEVEL CARDS -->
+<div class="levels-wrap">
+  <p class="section-label">レベルを選んで受験する</p>
+
+  <!-- 入門 L1-2 -->
+  <div class="tier">
+    <div class="tier-header">
+      <div class="tier-dot" style="background:var(--c1)"></div>
+      <span class="tier-name">入門｜Level 1 – 2</span>
+    </div>
+    <div class="level-grid">
+
+      <div class="level-card">
+        <div class="level-card-top">
+          <span class="level-badge c1">Level 1</span>
+          <span class="level-num">入門</span>
+        </div>
+        <div>
+          <div class="level-title">TikTokの基本用語・仕組み</div>
+          <div class="level-theme">FYP・エンゲージメント・インプレッションなどの基礎知識を確認</div>
+        </div>
+        <div class="level-meta">
+          <span class="level-info">10問 / 100点満点</span>
+          <!-- ▼ フォームURL作成後にhrefを差し替えてください -->
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSd1ZHJsPMFApYAXOYmazH3X3NO2gkVKz1nE4Igkdj_a98cnfw/viewform" target="_blank" class="level-btn">受験する</a>
+        </div>
+      </div>
+
+      <div class="level-card">
+        <div class="level-card-top">
+          <span class="level-badge c1">Level 2</span>
+          <span class="level-num">入門</span>
+        </div>
+        <div>
+          <div class="level-title">基礎指標・数値の読み方</div>
+          <div class="level-theme">再生数・完全視聴率・エンゲージメント率など指標の意味と使い方</div>
+        </div>
+        <div class="level-meta">
+          <span class="level-info">10問 / 100点満点</span>
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSfZ5DdDcQQZqGetn-MaOo-O186aLU6_jK1B8IWgmqoikpOXzQ/viewform" target="_blank" class="level-btn">受験する</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 基礎 L3-4 -->
+  <div class="tier">
+    <div class="tier-header">
+      <div class="tier-dot" style="background:var(--c2)"></div>
+      <span class="tier-name">基礎｜Level 3 – 4</span>
+    </div>
+    <div class="level-grid">
+
+      <div class="level-card">
+        <div class="level-card-top">
+          <span class="level-badge c2">Level 3</span>
+          <span class="level-num">基礎</span>
+        </div>
+        <div>
+          <div class="level-title">コンテンツ設計の基礎</div>
+          <div class="level-theme">フック・フォーマット・CTA設計など動画構成の基本的な考え方</div>
+        </div>
+        <div class="level-meta">
+          <span class="level-info">10問 / 100点満点</span>
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSetVuRwsFzViC4zogcAcIIM_1r-kMKxHE8i64Hp9f20yBLUOQ/viewform" target="_blank" class="level-btn">受験する</a>
+        </div>
+      </div>
+
+      <div class="level-card">
+        <div class="level-card-top">
+          <span class="level-badge c2">Level 4</span>
+          <span class="level-num">基礎</span>
+        </div>
+        <div>
+          <div class="level-title">アルゴリズム応用・配信最適化</div>
+          <div class="level-theme">配信ロジックの深い理解とアカウント設計・拡散設計の考え方</div>
+        </div>
+        <div class="level-meta">
+          <span class="level-info">10問 / 100点満点</span>
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSeDvgD6GiklZs-e-7UnXn5i1d8SSr9A4Az1ZDcHdUkjGggQGw/viewform" target="_blank" class="level-btn">受験する</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 実務 L5-6 -->
+  <div class="tier">
+    <div class="tier-header">
+      <div class="tier-dot" style="background:var(--c3)"></div>
+      <span class="tier-name">実務｜Level 5 – 6</span>
+    </div>
+    <div class="level-grid">
+
+      <div class="level-card">
+        <div class="level-card-top">
+          <span class="level-badge c3">Level 5</span>
+          <span class="level-num">実務</span>
+        </div>
+        <div>
+          <div class="level-title">実務シナリオ・判断力</div>
+          <div class="level-theme">実際の運用場面でのクライアント対応・改善判断・チーム対応</div>
+        </div>
+        <div class="level-meta">
+          <span class="level-info">10問 / 100点満点</span>
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSddF4UGs418Hbm3J7w9kUhfHHIm_hl8BAMBislyPMA0BK8XVQ/viewform" target="_blank" class="level-btn">受験する</a>
+        </div>
+      </div>
+
+      <div class="level-card">
+        <div class="level-card-top">
+          <span class="level-badge c3">Level 6</span>
+          <span class="level-num">実務</span>
+        </div>
+        <div>
+          <div class="level-title">データドリブン判断</div>
+          <div class="level-theme">複数の指標を組み合わせた状況診断・KPI設計・PDCA思考</div>
+        </div>
+        <div class="level-meta">
+          <span class="level-info">10問 / 100点満点</span>
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSclYVdJnUrc16olLtvbvevXyxPStz4Ie8Cbs3GVlezHksMS4A/viewform" target="_blank" class="level-btn">受験する</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 応用 L7-8 -->
+  <div class="tier">
+    <div class="tier-header">
+      <div class="tier-dot" style="background:var(--c4)"></div>
+      <span class="tier-name">応用｜Level 7 – 8</span>
+    </div>
+    <div class="level-grid">
+
+      <div class="level-card">
+        <div class="level-card-top">
+          <span class="level-badge c4">Level 7</span>
+          <span class="level-num">応用</span>
+        </div>
+        <div>
+          <div class="level-title">戦略設計・優先順位判断</div>
+          <div class="level-theme">施策の優先順位・フェーズ設計・クロスチャネル・収益化戦略</div>
+        </div>
+        <div class="level-meta">
+          <span class="level-info">10問 / 100点満点</span>
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSePeYDwXQ65X7l8bLuoYextCiNOB7g_LV3BYukLRjkg-bMdPQ/viewform" target="_blank" class="level-btn">受験する</a>
+        </div>
+      </div>
+
+      <div class="level-card">
+        <div class="level-card-top">
+          <span class="level-badge c4">Level 8</span>
+          <span class="level-num">応用</span>
+        </div>
+        <div>
+          <div class="level-title">チームマネジメント・制作進行</div>
+          <div class="level-theme">ブリーフ設計・スケール・フィードバック・品質管理の仕組み化</div>
+        </div>
+        <div class="level-meta">
+          <span class="level-info">10問 / 100点満点</span>
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSegrVNtYbKsh-XqqAN6mubHrEt8TMagX0sX7axs2r1upd_-BA/viewform" target="_blank" class="level-btn">受験する</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 上級 L9-10 -->
+  <div class="tier">
+    <div class="tier-header">
+      <div class="tier-dot" style="background:var(--c5)"></div>
+      <span class="tier-name">上級｜Level 9 – 10</span>
+    </div>
+    <div class="level-grid">
+
+      <div class="level-card">
+        <div class="level-card-top">
+          <span class="level-badge c5">Level 9</span>
+          <span class="level-num">上級</span>
+        </div>
+        <div>
+          <div class="level-title">トレードオフ・高難度判断</div>
+          <div class="level-theme">量vs質・短期vs長期など、どちらも正しい選択肢から最適解を選ぶ</div>
+        </div>
+        <div class="level-meta">
+          <span class="level-info">10問 / 100点満点</span>
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSdp8ZTe-_atu8Ww3pPRiieNSo4PGUGE5zpebpYEdTDOlhrfXQ/viewform" target="_blank" class="level-btn">受験する</a>
+        </div>
+      </div>
+
+      <div class="level-card">
+        <div class="level-card-top">
+          <span class="level-badge c5">Level 10</span>
+          <span class="level-num">上級</span>
+        </div>
+        <div>
+          <div class="level-title">最上級・総合戦略判断</div>
+          <div class="level-theme">事業貢献・組織設計・危機管理・長期ブランド構築・AI時代の役割</div>
+        </div>
+        <div class="level-meta">
+          <span class="level-info">10問 / 100点満点</span>
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSf69OBTKinVBQCqwXm88HF4QNHGuKAVPOsyJ6SI9MQwNixaDg/viewform" target="_blank" class="level-btn">受験する</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- /levels-wrap -->
+
+</body>
+</html>
