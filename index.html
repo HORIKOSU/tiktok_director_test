@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TikTok Director Test | andthen</title>
+<title>TikTok Director Test【ディレクター編】| andthen</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap');
 
@@ -55,8 +55,22 @@ body {
   font-weight: 600;
   letter-spacing: 0.5px;
   color: var(--sub);
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 .header-logo span { color: var(--text); }
+.header-edition-badge {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--white);
+  background: var(--text);
+  padding: 3px 10px;
+  border-radius: 99px;
+  white-space: nowrap;
+}
 .header-note {
   font-size: 12px;
   color: var(--sub);
@@ -68,6 +82,20 @@ body {
   border-bottom: 1px solid var(--border);
   padding: 64px 32px 56px;
   text-align: center;
+}
+.hero-edition-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--white);
+  background: var(--text);
+  padding: 7px 18px;
+  border-radius: 99px;
+  margin-bottom: 20px;
 }
 .hero-eyebrow {
   font-family: 'Inter', sans-serif;
@@ -84,6 +112,17 @@ body {
   line-height: 1.2;
   letter-spacing: -0.5px;
   margin-bottom: 16px;
+}
+.hero-title .edition-inline {
+  display: inline-block;
+  font-size: 0.5em;
+  font-weight: 700;
+  vertical-align: middle;
+  color: var(--white);
+  background: var(--text);
+  padding: 4px 12px;
+  border-radius: 8px;
+  margin-left: 10px;
 }
 .hero-desc {
   font-size: 15px;
@@ -412,6 +451,7 @@ body {
 
 <!-- HERO -->
 <section class="hero">
+  <span class="hero-edition-badge">📋 ディレクター編</span>
   <p class="hero-eyebrow">Hiring Assessment Portal</p>
   <h1 class="hero-title">TikTokディレクター<br>採用適性テスト</h1>
   <p class="hero-desc">レベル1〜10の10段階。応募者が自分のレベルを選んで受験できます。各レベルは10問・100点満点・所要時間約10分です。</p>
